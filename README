@@ -1,0 +1,42 @@
+The file is the README for Acme::DonMartin version 0.01
+
+INSTALLATION
+
+perl Makefile.PL
+make
+make test
+make install
+
+PREREQUISITES
+
+This module requires the following module
+
+    Compress::Zlib
+
+BASIC USAGE
+
+    use Acme::DonMartin;
+    print "hello, world\n";
+
+BUGS
+
+I have made a simple attempt to create a test suite for this
+module. It works for me, but it will break if the test suite
+can't find the perl executable somewhere on the PATH. If this
+is too error prone, I'll do something about it. In the mean-
+time, in spite of the failure, you will probably find that
+the module works as advertised.
+
+AUTHOR
+
+David Landgren <david@landgren.net>
+
+COPYRIGHT
+
+This module is copyright (C) David Landgren 2005.
+All rights reserved.
+
+LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
