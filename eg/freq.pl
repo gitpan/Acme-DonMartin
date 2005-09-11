@@ -1,5 +1,6 @@
 #! /usr/local/bin/perl -w
 
+use lib qw{ blib/lib ../blib/lib };
 use Acme::DonMartin;
 
 my %f;

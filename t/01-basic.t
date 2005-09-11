@@ -1,7 +1,8 @@
-use Test::More tests => 2;
+use Test::More tests => 4;
 
 my $script         = 'eg/freq.pl';
-my $transmogrified = `perl $script`;
+my $inc            = join( ':', @INC );
+my $transmogrified = `perl -Iblib/lib $script`;
 
 ok( length $transmogrified > 1, "munged $script" );
 
@@ -11,51 +12,72 @@ SKIP: {
 		unless open OUT, '> t/freq.o';
 	print OUT $transmogrified;
 	close OUT;
-	cmp_ok( `perl t/freq.o $script`, 'eq', <<COMPARE, "ran munged $script" );
+	cmp_ok( `perl t/freq.o $script`, 'eq', <<'COMPARE', "ran munged $script" );
 
-	10
- 	19
+	11
+ 	24
 !	1
 "	2
 #	1
-\$	5
+$	5
 %	2
 (	1
 )	1
 +	2
 -	1
-/	6
+.	2
+/	9
 :	2
-;	3
+;	4
 <	1
 >	1
 A	1
 D	1
 M	1
-\\	2
+\	2
 _	3
 a	2
-b	1
+b	8
 c	2
-e	5
+e	6
 f	6
 h	1
-i	5
+i	10
 k	1
-l	5
+l	10
 m	2
 n	5
 o	5
 p	3
+q	1
 r	7
-s	5
+s	6
 t	5
-u	2
-w	2
+u	3
+w	3
 y	2
-{	3
-}	3
+{	4
+}	4
 COMPARE
 	unlink 't/freq.tmp';
+}
+
+SKIP: {
+    skip( 'Test::Pod not installed on this system', 2 )
+        unless do {
+            eval { use Test::Pod };
+            $@ ? 0 : 1;
+        };
+
+    pod_file_ok( 'DonMartin.pm' );
+}
+
+SKIP: {
+    skip( 'Test::Pod::Coverage cannot deal with this module', 1 )
+        unless do {
+            eval { use Test::Pod::Coverage };
+            $@ ? 0 : 0;
+        };
+    pod_coverage_ok( "Acme::DonMartin", "POD coverage is go!" );
 }
 

@@ -1,5 +1,8 @@
 Revision history for Perl extension Acme::DonMartin.
 
+0.03 Sun Sep 11 10:02:48 2005 UTC
+    - Added POD coverage tests
+
 0.02 Sat Apr 9 10:49:04 2005 UTC
     - Now runs under 'use strict' (hey, one more Kwalitee
       point is better than nothing).
