@@ -63,9 +63,9 @@ COMPARE
 }
 
 SKIP: {
-    skip( 'Test::Pod not installed on this system', 2 )
+    skip( 'Test::Pod not installed on this system', 1 )
         unless do {
-            eval { use Test::Pod };
+            eval qq{ use Test::Pod };
             $@ ? 0 : 1;
         };
 
@@ -75,7 +75,7 @@ SKIP: {
 SKIP: {
     skip( 'Test::Pod::Coverage cannot deal with this module', 1 )
         unless do {
-            eval { use Test::Pod::Coverage };
+            eval qq{ use Test::Pod::Coverage };
             $@ ? 0 : 0;
         };
     pod_coverage_ok( "Acme::DonMartin", "POD coverage is go!" );
