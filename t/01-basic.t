@@ -7,12 +7,12 @@ my $transmogrified = `perl -Iblib/lib $script`;
 ok( length $transmogrified > 1, "munged $script" );
 
 SKIP: {
-	my $file = 't/freq.tmp';
-	skip "Can't open $file for output: $!", 1
-		unless open OUT, '> t/freq.o';
-	print OUT $transmogrified;
-	close OUT;
-	cmp_ok( `perl t/freq.o $script`, 'eq', <<'COMPARE', "ran munged $script" );
+    my $file = 't/freq.tmp';
+    skip "Can't open $file for output: $!", 1
+        unless open OUT, '> t/freq.o';
+    print OUT $transmogrified;
+    close OUT;
+    cmp_ok( `perl t/freq.o $script`, 'eq', <<'COMPARE', "ran munged $script" );
 
 	11
  	24
@@ -59,13 +59,15 @@ y	2
 {	4
 }	4
 COMPARE
-	unlink 't/freq.tmp';
+
+    # tidy up
+    unlink 't/freq.o' or diag( "problem unlinking t/freq.o: $!\n" );
 }
 
 SKIP: {
     skip( 'Test::Pod not installed on this system', 1 )
         unless do {
-            eval qq{ use Test::Pod };
+            eval "use Test::Pod";
             $@ ? 0 : 1;
         };
 
@@ -75,7 +77,7 @@ SKIP: {
 SKIP: {
     skip( 'Test::Pod::Coverage cannot deal with this module', 1 )
         unless do {
-            eval qq{ use Test::Pod::Coverage };
+            eval "use Test::Pod::Coverage";
             $@ ? 0 : 0;
         };
     pod_coverage_ok( "Acme::DonMartin", "POD coverage is go!" );
