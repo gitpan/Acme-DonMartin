@@ -1,18 +1,22 @@
 use Test::More tests => 4;
 
-my $script         = 'eg/freq.pl';
-my $inc            = join( ':', @INC );
-my $transmogrified = `perl -Iblib/lib $script`;
-
-ok( length $transmogrified > 1, "munged $script" );
+use strict;
 
 SKIP: {
+	use Config;
+    my $perl = $Config{perlpath};
+	$perl .= $Config{_exe} if $^O ne 'VMS' and $perl !~ m/$Config{_exe}$/i;
+
+	my $script         = 'eg/freq.pl';
+	my $transmogrified = `$perl -Iblib/lib $script`;
+	ok( length $transmogrified > 1, "munged $script" );
+
     my $file = 't/freq.tmp';
     skip "Can't open $file for output: $!", 1
         unless open OUT, '> t/freq.o';
     print OUT $transmogrified;
     close OUT;
-    cmp_ok( `perl t/freq.o $script`, 'eq', <<'COMPARE', "ran munged $script" );
+    cmp_ok( `$perl t/freq.o $script`, 'eq', <<'COMPARE', "ran munged $script" );
 
 	11
  	24

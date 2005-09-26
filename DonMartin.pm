@@ -4,8 +4,8 @@ Acme::DonMartin - For programs that are easy to dictate over the telephone
 
 =head1 VERSION
 
-This document describes version 0.05 of Acme::DonMartin, released
-2005-09-25.
+This document describes version 0.06 of Acme::DonMartin, released
+2005-09-26.
 
 =head1 SYNOPSIS
 
@@ -94,7 +94,7 @@ package Acme::DonMartin;
 use strict;
 use vars qw/ $VERSION /;
 
-$VERSION = 0.05;
+$VERSION = 0.06;
 
 use vars qw/ $bleeble  @dink $fwizzish  $gaplork  $glorgle @glub
 $kwonk  $oof $ooga  @skaplunch %sklurk $splazatch $thud  %thuk/;
