@@ -1,4 +1,4 @@
-The file is the README for Acme::DonMartin version 0.06
+The file is the README for Acme::DonMartin version 0.07
 
 INSTALLATION
 
@@ -9,23 +9,34 @@ make install
 
 PREREQUISITES
 
-This module requires the following module
+This module requires the following module:
 
     Compress::Zlib
+
+The following modules are advised for full testing, but are
+not required:
+
+    use File::Copy (normally available, since it is in the core)
+    use Test::Cmd
+    use Test::Pod
+    use Test::Pod::Coverage
 
 BASIC USAGE
 
     use Acme::DonMartin;
     print "hello, world\n";
 
+Place the above code in a file, and then execute it, and it will
+be transformed into Don Martin sound effects. Run it a second time,
+and it will perform as expected. (In this case, "hello, world" will
+be printed to the usual place.
+
 BUGS
 
-I have made a simple attempt to create a test suite for this
-module. It works for me, but it will break if the test suite
-can't find the perl executable somewhere on the PATH. If this
-is too error prone, I'll do something about it. In the mean-
-time, in spite of the failure, you will probably find that
-the module works as advertised.
+I have made an improved attempt, as of version 0.07, to create a
+test suite for this module that works reliably and portably. (It
+works okay on Unix and Win32). Mainly by finding the right Test
+modules to do all the nitty-gritty details for me.
 
 AUTHOR
 
@@ -33,7 +44,7 @@ David Landgren <david@landgren.net>
 
 COPYRIGHT
 
-This module is copyright (C) David Landgren 2005.
+This module is copyright (C) David Landgren 2005-2006.
 All rights reserved.
 
 LICENSE

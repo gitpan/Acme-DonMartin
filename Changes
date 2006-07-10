@@ -1,5 +1,19 @@
 Revision history for Perl extension Acme::DonMartin.
 
+0.07 2006-07-10 08:38:39 UTC
+    - Added license information.
+    - Rewrite the source file on the first pass, instead of
+      printing it to STDOUT (to be more conformant with
+      Acme Best Practices).
+    - Fixed cross-platform line-endings bug (a program with
+      Unix line-endings wouldn't work on Windows -- and no
+      doubt vice versa). Credit goes to Georg Moritz for
+      spotting this bug.
+    - The test suite now uses Test::Cmd and Test::File::Contents
+      which should improve portability.
+    - Minor improvements to code readability, deployed a
+      superiour variable naming convention.
+
 0.06 Mon Sep 26 14:48:27 2005 UTC
     - Use Config.pm to figure out which perl executable to
       employ for certain tests.

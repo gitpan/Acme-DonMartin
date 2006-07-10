@@ -1,71 +1,62 @@
-use Test::More tests => 4;
+# 01-basic.t -- basic tests for Acme::DonMartin
+#
+# Copyright (C) 2005-2006 David Landgren
+
+use Test::More tests => 6;
 
 use strict;
+my %fail;
+
+BEGIN {
+	for my $module (qw(Test::Cmd Test::File::Contents File::Copy)) {
+		eval "use $module"; $@ and $fail{$module}++;
+	}
+	# the following is merely for CPANTS stats
+	if (0) {
+		eval 'use Test::Cmd';
+		eval 'use Test::File::Contents';
+		eval 'use File::Copy';
+	}
+}
 
 SKIP: {
-	use Config;
-    my $perl = $Config{perlpath};
-	$perl .= $Config{_exe} if $^O ne 'VMS' and $perl !~ m/$Config{_exe}$/i;
+	if (%fail) {
+		diag( "$_ not found" ) for sort keys %fail;
+		skip( "Not all modules required for testing were found, skipping encode/decode tests", 4 );
+	}
 
-	my $script         = 'eg/freq.pl';
-	my $transmogrified = `$perl -Iblib/lib $script`;
-	ok( length $transmogrified > 1, "munged $script" );
+    copy('eg/freq.orig', 'freq.pl') or
+		skip( "Unable to prepare test file: $!", 4 );
 
-    my $file = 't/freq.tmp';
-    skip "Can't open $file for output: $!", 1
-        unless open OUT, '> t/freq.o';
-    print OUT $transmogrified;
-    close OUT;
-    cmp_ok( `$perl t/freq.o $script`, 'eq', <<'COMPARE', "ran munged $script" );
+	my $t = Test::Cmd->new(
+        interpreter => $^X,
+		prog        => 'eg/freq.pl',
+		workdir     => '',
+		subdir      => 'sub',
+		verbose     => 0,
+	);
+	ok($t, 'Test::Cmd object built for Acme::DonMartin');
 
-	11
- 	24
-!	1
-"	2
-#	1
-$	5
-%	2
-(	1
-)	1
-+	2
--	1
-.	2
-/	9
-:	2
-;	4
-<	1
->	1
-A	1
-D	1
-M	1
-\	2
-_	3
-a	2
-b	8
-c	2
-e	6
-f	6
-h	1
-i	10
-k	1
-l	10
-m	2
-n	5
-o	5
-p	3
-q	1
-r	7
-s	6
-t	5
-u	3
-w	3
-y	2
-{	4
-}	4
-COMPARE
+	$t->run;
+	is($?, 0, 'encoding pass');
 
-    # tidy up
-    unlink 't/freq.o' or diag( "problem unlinking t/freq.o: $!\n" );
+	$t->run(args => 'eg/freq.orig');
+	is($?, 0, 'decoding pass');
+
+	(my $res = $t->stdout) =~ s/\s+/_/g;
+	my $baseline = do {
+	    if (open my $in, '<', 'eg/freq.out') {
+	        local $/ = undef;
+	        (my $slurp = <$in>) =~ s/\s+/_/g;
+	        close $in;
+	        $slurp;
+	    }
+	    else {
+	        "cannot open $in for input: $!"
+	    }
+	};
+	cmp_ok( $baseline, 'eq', $res, "acmed output" );
+
 }
 
 SKIP: {
@@ -82,8 +73,7 @@ SKIP: {
     skip( 'Test::Pod::Coverage cannot deal with this module', 1 )
         unless do {
             eval "use Test::Pod::Coverage";
-            $@ ? 0 : 0;
+            0; # always short-circuit
         };
     pod_coverage_ok( "Acme::DonMartin", "POD coverage is go!" );
 }
-
