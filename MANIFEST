@@ -1,6 +1,7 @@
 Changes
 DonMartin.pm
 MANIFEST
+MANIFEST.SKIP
 META.yml
 Makefile.PL
 README
