@@ -1,5 +1,9 @@
 Revision history for Perl extension Acme::DonMartin.
 
+0.09 2006-11-03 10:53:07 UTC
+    - Managed to fuck up the previous distribution with a blib/
+      directory. No functional changes.
+
 0.08 2006-11-02 16:08:27 UTC
     - Clarified the licensing of the module
     - Moved the module into subversion.
